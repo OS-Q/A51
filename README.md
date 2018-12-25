@@ -1,4 +1,4 @@
-﻿# M4：[桥接节点](https://github.com/OS-Q/M4) 
+﻿# M4：[桥接管道](https://github.com/OS-Q/M4) 
 
 [![sites](OS-Q/OS-Q.png)](http://www.OS-Q.com)
 
@@ -8,11 +8,11 @@
 
 ## [节点描述](https://github.com/OS-Q/M4/wiki) 
 
-M4 桥接节点，作为通信桥梁连接两端设备，作为被控制辅助通信单元
+M4桥接管道节点，作为通信桥梁连接上下两端设备，不作为主动控制单元
 
-### [共用资源](https://github.com/OS-Q/M4/wiki) 
+### [共用资源](OS-Q/)
 
-#### [文件M6](M6/)
+#### [网关互联](M6/)
 
 M4节点和M6节点对接规范和资源
 
@@ -23,43 +23,44 @@ M4节点和M6节点对接规范和资源
 
 ---
 
-- 边缘设备统一命名规则：体系 Q:[1,4] -> 节点 M:[1,12] -> 平台 W:[1,52] -> 设备 D:[1,365]
+- 边缘设备命名规则：体系 Q:[1,4] -> 节点 M:[1,12] -> 平台 W:[1,52] -> 设备 D:[1,365]
+
+- naming patterns：system Q[1,4] -> node M[1,12] -> platform W[1,52] -> device D[1,365]
 
 ## [包含平台](https://github.com/OS-Q/M4/wiki) 
 
-#### W14：[有线桥接](https://github.com/OS-Q/W14)
+#### W14：[通道转换](https://github.com/OS-Q/W14)
 
-通过有线连接的方式对接相应设备
+物理通信通道或通信协议的改变
 
-#### W15：[无线嵌入](https://github.com/OS-Q/W15)
+#### W15：[通道扩展](https://github.com/OS-Q/W15)
 
-用于集成到其他设备平台协助通信
+通信通道数量和适配的种类扩充
 
-#### W16：[无线中继](https://github.com/OS-Q/W16)
+#### W16：[通信中继](https://github.com/OS-Q/W16)
 
-用于中继增强或转换无线电信信号
+通信信号在传输过程中进行补强
 
 #### W17：[专用模块](https://github.com/OS-Q/W17)
 
-用于适配特定系统的专用桥接模块
+用于适配他人设备专用桥接模块
 
 ## [同级节点](https://github.com/OS-Q/Q2/wiki)
 
-#### -> M4：[桥接节点](https://github.com/OS-Q/M4)
+#### -> M4：[桥接管道](https://github.com/OS-Q/M4)
 
-作为通信桥梁转换或增强相应信号
+作为上下层级设备控制的通信管道
 
-#### M5：[集成节点](https://github.com/OS-Q/M5)
+#### M5：[无线终端](https://github.com/OS-Q/M5)
 
-集成通信和控制的一体化边缘节点
+集成无线通信和边缘控制终端设备
 
-#### M6：[路由节点](https://github.com/OS-Q/M6)
+#### M6：[数据网关](https://github.com/OS-Q/M6)
 
-物联设备内部数据交换和网络连接
+数据中转节点，数据的汇集和处理
 
 ---
-####  qitas@qitas.cn
+
+####  © qitas@qitas.cn
 ###  [OS-Q redefined Operation System](http://www.OS-Q.com)
-####  © 2018-12-11
-
----
+####  @ 2018-12-25
