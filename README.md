@@ -29,27 +29,27 @@ M4节点和M6节点对接规范和资源
 
 ## [包含平台](https://github.com/OS-Q/M4/wiki) 
 
-#### W14：[通道转换](https://github.com/OS-Q/W14)
+#### W14：[有线转换](https://github.com/OS-Q/W14)
 
-物理通信通道或通信协议的改变
+有线通信通道或通信协议的切换
 
-#### W15：[通道扩展](https://github.com/OS-Q/W15)
+#### W15：[短距通道](https://github.com/OS-Q/W15)
 
-通信通道数量和适配的种类扩充
+短距数据无线通信调制桥接管道
 
-#### W16：[通信中继](https://github.com/OS-Q/W16)
+#### W16：[无线中继](https://github.com/OS-Q/W16)
 
-通信信号在传输过程中进行补强
+无线通信数据空中无差补强中继
 
-#### W17：[专用模块](https://github.com/OS-Q/W17)
+#### W17：[广域通道](https://github.com/OS-Q/W17)
 
-用于适配他人设备专用桥接模块
+用于广域覆盖无线通信连接接入
 
 ## [同级节点](https://github.com/OS-Q/Q2/wiki)
 
 #### -> M4：[桥接管道](https://github.com/OS-Q/M4)
 
-作为上下层级设备控制的通信管道
+通信上下层间被动受控制转换管道
 
 #### M5：[无线终端](https://github.com/OS-Q/M5)
 
@@ -63,4 +63,4 @@ M4节点和M6节点对接规范和资源
 
 ####  © qitas@qitas.cn
 ###  [OS-Q redefined Operation System](http://www.OS-Q.com)
-####  @ 2018-12-25
+####  @ 2019-1-18
