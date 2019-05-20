@@ -28,4 +28,8 @@ Edge-Q -> 体系 Q[1,4] -> 节点 M[1,12] -> 平台 W[1,52] -> 设备 D[1,365]
     * M6：[通信网关](https://github.com/OS-Q/M6)
 
 ### [OS-Q : Operation System for edge devices](http://www.OS-Q.com/Edge/M4)
+<<<<<<< HEAD
 ####  2019-5-20
+=======
+####  2019-5-9  
+>>>>>>> 3ca312ec300a95146e35dad2be5c70efc042bd1a
