@@ -12,12 +12,15 @@ Edge-Q -> Q[4] -> M[12] -> W[52] -> D[365]
 
 基于arduino开发平台和ESP8266系列硬件
 
+* http://arduino.esp8266.com/stable/package_esp8266com_index.json
+* https://github.com/esp8266/Arduino
+
 ### [节点资源](https://github.com/OS-Q/M4) 
 
 - [资源](src/)
 - [文档](docs/)
 
-### [节点组成](https://github.com/OS-Q/M4) 
+### [拓扑结构](https://github.com/OS-Q/M4) 
 
 * Q2：[数据搬运](https://github.com/OS-Q/Q2)
     * M4：通信端点
@@ -29,4 +32,4 @@ Edge-Q -> Q[4] -> M[12] -> W[52] -> D[365]
     * M6：[通信网关](https://github.com/OS-Q/M6)
 
 ### [OS-Q : Open Solution & Open Source](http://www.OS-Q.com/M4)
-####  2019-8-12
+####  2019-8-16
