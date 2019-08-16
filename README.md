@@ -1,15 +1,16 @@
-﻿# [通信管道](https://github.com/OS-Q/M4)
+﻿# [通信端点](https://github.com/OS-Q/M4)
 
 [![sites](OS-Q/OS-Q.png)](http://www.OS-Q.com)
 
-#### 归属数据搬运：[Q2](https://github.com/OS-Q/Q2)
+#### 归属通信体系：[Q2](https://github.com/OS-Q/Q2)
 
 #### 关于系统架构：[OS-Q](https://github.com/OS-Q/OS-Q)
 
-Edge-Q -> 体系 Q[1,4] -> 节点 M[1,12] -> 平台 W[1,52] -> 设备 D[1,365]
+Edge-Q -> Q[4] -> M[12] -> W[52] -> D[365]
+
 ## [节点描述](https://github.com/OS-Q/M4/wiki) 
 
-通信管道节点，作为通信桥梁介质直接连接上下两端设备，主要为硬件实现，不作为可编程主控制单元
+基于arduino开发平台和ESP8266系列硬件
 
 ### [节点资源](https://github.com/OS-Q/M4) 
 
@@ -19,13 +20,13 @@ Edge-Q -> 体系 Q[1,4] -> 节点 M[1,12] -> 平台 W[1,52] -> 设备 D[1,365]
 ### [节点组成](https://github.com/OS-Q/M4) 
 
 * Q2：[数据搬运](https://github.com/OS-Q/Q2)
-    * M4：通信管道
-        * W14：[接口转换](https://github.com/OS-Q/W14)
-        * W15：[无线模块](https://github.com/OS-Q/W15)
-        * W16：[无线设备](https://github.com/OS-Q/W16)
-        * W17：[广域网络](https://github.com/OS-Q/W17)
-    * M5：[通信终端](https://github.com/OS-Q/M5)
+    * M4：通信端点
+        * W14：[控制工程](https://github.com/OS-Q/W14)
+        * W15：[通信工程](https://github.com/OS-Q/W15)
+        * W16：[网络工程](https://github.com/OS-Q/W16)
+        * W17：[显示工程](https://github.com/OS-Q/W17)
+    * M5：[通信节点](https://github.com/OS-Q/M5)
     * M6：[通信网关](https://github.com/OS-Q/M6)
 
-### [OS-Q : Operation System for edge devices](http://www.OS-Q.com/Edge/M4)
-####  2019-5-20
+### [OS-Q : Open Solution & Open Source](http://www.OS-Q.com/M4)
+####  2019-8-12
