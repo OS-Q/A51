@@ -1,0 +1,6 @@
+{
+    "name": "framework-arduinoespressif8266",
+    "description": "Arduino Wiring-based Framework (ESP8266 Core)",
+    "url": "https://github.com/OS-Q/M4",
+    "version": "0.1.0"
+}
