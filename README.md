@@ -10,15 +10,20 @@ Edge-Q -> Q[4] -> M[12] -> W[52] -> D[365]
 
 ## [节点描述](https://github.com/OS-Q/M4/wiki) 
 
-基于arduino开发平台和ESP8266系列硬件
+基于arduino开发平台和ESP8266系列硬件，相关资源导入链接：
 
 * http://arduino.esp8266.com/stable/package_esp8266com_index.json
 * https://github.com/esp8266/Arduino
 
-### [节点资源](https://github.com/OS-Q/M4) 
+### [本库资源](https://github.com/OS-Q) 
 
-- [资源](src/)
-- [文档](docs/)
+* [资源](src/)
+* [文档](docs/)
+
+### [关联资源](https://github.com/sochub)
+
+主控硬件开发资料和选型对比可查阅 [SoC HUB资源平台：ESP8266](https://github.com/sochub/ESP8266)
+
 
 ### [拓扑结构](https://github.com/OS-Q/M4) 
 
