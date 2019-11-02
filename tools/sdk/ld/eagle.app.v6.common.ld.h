@@ -127,10 +127,6 @@ SECTIONS
     *(.init.literal)
     *(.init)
 
-    *(.text.app_entry*)  /* The main startup code */
-
-    *(.text.gdbstub*, .text.gdb_init)    /* Any GDB hooks */
-
     /* all functional callers are placed in IRAM (including SPI/IRQ callbacks/etc) here */
     *(.text._ZNKSt8functionIF*EE*)  /* std::function<any(...)>::operator()() const */
   } >iram1_0_seg :iram1_0_phdr
@@ -139,8 +135,8 @@ SECTIONS
   {
     _irom0_text_start = ABSOLUTE(.);
     *(.ver_number)
-    *.c.o(.literal*, .text*)
-    *.cpp.o(EXCLUDE_FILE (umm_malloc.cpp.o) .literal*, EXCLUDE_FILE (umm_malloc.cpp.o) .text*)
+    *.c.o( EXCLUDE_FILE (umm_malloc.c.o) .literal*, EXCLUDE_FILE (umm_malloc.c.o) .text* )
+    *.cpp.o(.literal*, .text*)
     *.cc.o(.literal*, .text*)
 #ifdef VTABLES_IN_FLASH
     *(.rodata._ZTV*) /* C++ vtables */

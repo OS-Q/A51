@@ -35,11 +35,24 @@ extern "C" {
 };
 #include "debug.h"
 #include "flash_utils.h"
-#include "flash_hal.h"
 
 using namespace fs;
 
-namespace spiffs_impl {
+#ifdef ARDUINO
+extern "C" uint32_t _SPIFFS_start;
+extern "C" uint32_t _SPIFFS_end;
+extern "C" uint32_t _SPIFFS_page;
+extern "C" uint32_t _SPIFFS_block;
+
+#define SPIFFS_PHYS_ADDR ((uint32_t) (&_SPIFFS_start) - 0x40200000)
+#define SPIFFS_PHYS_SIZE ((uint32_t) (&_SPIFFS_end) - (uint32_t) (&_SPIFFS_start))
+#define SPIFFS_PHYS_PAGE ((uint32_t) &_SPIFFS_page)
+#define SPIFFS_PHYS_BLOCK ((uint32_t) &_SPIFFS_block)
+#endif
+
+extern int32_t spiffs_hal_write(uint32_t addr, uint32_t size, uint8_t *src);
+extern int32_t spiffs_hal_erase(uint32_t addr, uint32_t size);
+extern int32_t spiffs_hal_read(uint32_t addr, uint32_t size, uint8_t *dst);
 
 int getSpiffsMode(OpenMode openMode, AccessMode accessMode);
 bool isSpiffsFilenameValid(const char* name);
@@ -82,9 +95,9 @@ public:
         }
         return true;
     }
-
     bool info(FSInfo& info) override
     {
+        info.maxOpenFiles = _maxOpenFds;
         info.blockSize = _blockSize;
         info.pageSize = _pageSize;
         info.maxOpenFiles = _maxOpenFds;
@@ -97,20 +110,6 @@ public:
         }
         info.totalBytes = totalBytes;
         info.usedBytes = usedBytes;
-        return true;
-    }
-
-    virtual bool info64(FSInfo64& info64) {
-        FSInfo i;
-        if (!info(i)) {
-            return false;
-        }
-        info64.blockSize     = i.blockSize;
-        info64.pageSize      = i.pageSize;
-        info64.maxOpenFiles  = i.maxOpenFiles;
-        info64.maxPathLength = i.maxPathLength;
-        info64.totalBytes    = i.totalBytes;
-        info64.usedBytes     = i.usedBytes;
         return true;
     }
 
@@ -151,11 +150,6 @@ public:
 
     bool begin() override
     {
-#if defined(ARDUINO) && !defined(CORE_MOCK)
-        if (&_FS_end <= &_FS_start)
-            return false;
-#endif
-
         if (SPIFFS_mounted(&_fs) != 0) {
             return true;
         }
@@ -166,16 +160,16 @@ public:
         if (_tryMount()) {
             return true;
         }
-        if (_cfg._autoFormat) {
+	if (_cfg._autoFormat) {
             auto rc = SPIFFS_format(&_fs);
             if (rc != SPIFFS_OK) {
                 DEBUGV("SPIFFS_format: rc=%d, err=%d\r\n", rc, _fs.err_code);
                 return false;
             }
             return _tryMount();
+        } else {
+            return false;
         }
-
-        return false;
     }
 
     void end() override
@@ -217,11 +211,6 @@ public:
     bool gc() override
     {
         return SPIFFS_gc_quick( &_fs, 0 ) == SPIFFS_OK;
-    }
-
-    bool check() override
-    {
-        return SPIFFS_check(&_fs) == SPIFFS_OK;
     }
 
 protected:
@@ -313,17 +302,6 @@ protected:
     }
 
     spiffs _fs;
-
-    // Flash hal wrapper functions to get proper SPIFFS error codes
-    static int32_t spiffs_hal_write(uint32_t addr, uint32_t size, const uint8_t *src) {
-        return flash_hal_write(addr, size, src) == FLASH_HAL_OK ? SPIFFS_OK : SPIFFS_ERR_INTERNAL;
-    }
-    static int32_t spiffs_hal_erase(uint32_t addr, uint32_t size) {
-        return flash_hal_erase(addr, size) == FLASH_HAL_OK ? SPIFFS_OK : SPIFFS_ERR_INTERNAL;
-    }
-    static int32_t spiffs_hal_read(uint32_t addr, uint32_t size, uint8_t *dst) {
-        return flash_hal_read(addr, size, dst) == FLASH_HAL_OK ? SPIFFS_OK : SPIFFS_ERR_INTERNAL;
-    }
 
     uint32_t _start;
     uint32_t _size;
@@ -582,6 +560,4 @@ protected:
     bool _valid;
 };
 
-}; // namespace
-
-#endif //spiffs_api_h
+#endif//spiffs_api_h

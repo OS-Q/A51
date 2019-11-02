@@ -251,12 +251,9 @@ bool FS::setConfig(const FSConfig &cfg) {
 
 bool FS::begin() {
     if (!_impl) {
-        DEBUGV("#error: FS: no implementation");
         return false;
     }
-    bool ret = _impl->begin();
-    DEBUGV("%s\n", ret? "": "#error: FS could not start");
-    return ret;
+    return _impl->begin();
 }
 
 void FS::end() {
@@ -272,13 +269,6 @@ bool FS::gc() {
     return _impl->gc();
 }
 
-bool FS::check() {
-    if (!_impl) {
-        return false;
-    }
-    return _impl->check();
-}
-
 bool FS::format() {
     if (!_impl) {
         return false;
@@ -291,13 +281,6 @@ bool FS::info(FSInfo& info){
         return false;
     }
     return _impl->info(info);
-}
-
-bool FS::info64(FSInfo64& info){
-    if (!_impl) {
-        return false;
-    }
-    return _impl->info64(info);
 }
 
 File FS::open(const String& path, const char* mode) {

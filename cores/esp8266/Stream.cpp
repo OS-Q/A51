@@ -33,8 +33,6 @@ int Stream::timedRead() {
         c = read();
         if(c >= 0)
             return c;
-        if(_timeout == 0)
-            return -1;
         yield();
     } while(millis() - _startMillis < _timeout);
     return -1;     // -1 indicates timeout
@@ -48,8 +46,6 @@ int Stream::timedPeek() {
         c = peek();
         if(c >= 0)
             return c;
-        if(_timeout == 0)
-            return -1;
         yield();
     } while(millis() - _startMillis < _timeout);
     return -1;     // -1 indicates timeout
@@ -258,3 +254,4 @@ String Stream::readStringUntil(char terminator) {
     }
     return ret;
 }
+

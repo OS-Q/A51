@@ -40,7 +40,7 @@ br_i15_decode(uint16_t *x, const void *src, size_t len)
 	while (len -- > 0) {
 		uint32_t b;
 
-		b = pgm_read_byte(&buf[len]);
+		b = buf[len];
 		acc |= (b << acc_len);
 		acc_len += 8;
 		if (acc_len >= 15) {

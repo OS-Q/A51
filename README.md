@@ -8,13 +8,5 @@
 
 [Framework N11](https://github.com/OS-Q/N11) 用于支持ESP8266平台运行arduino
 
-### [关联资源](https://github.com/OS-Q/)
-
- *  [ Platform : ESP8266](https://github.com/OS-Q/H8) 
-*   [Framework N11](https://github.com/OS-Q/N11)
-*   [Framework N12](https://github.com/OS-Q/N12)
-*   [Framework N13](https://github.com/OS-Q/N13)
- *  [ M4](https://github.com/OS-Q/M4) 
-
 ### [OS-Q = Open Solutions | Open Source |  Operating System ](http://www.OS-Q.com/N11)
 ####  2019-9-6

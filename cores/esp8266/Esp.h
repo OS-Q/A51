@@ -213,8 +213,7 @@ uint32_t EspClass::getCycleCount()
     __asm__ __volatile__("esync; rsr %0,ccount":"=a" (ccount));
     return ccount;
 }
-
-#endif // !defined(CORE_MOCK)
+#endif
 
 extern EspClass ESP;
 
