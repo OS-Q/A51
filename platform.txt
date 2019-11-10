@@ -1,4 +1,9 @@
+
 # ESP8266 platform
+name=ESP8266 (2.5.2)
+version=2.5.2
+
+
 
 runtime.tools.signing={runtime.platform.path}/tools/signing.py
 runtime.tools.elf2bin={runtime.platform.path}/tools/elf2bin.py
