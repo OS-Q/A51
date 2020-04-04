@@ -36,7 +36,7 @@
 
 #ifdef HOST_MOCK
 extern uint64_t _sdCardSizeB;
-extern uint8_t _sdCard[];
+extern uint8_t *_sdCard;
 #endif
 
 namespace sdfat {
@@ -64,10 +64,12 @@ class SdSpiCard {
   /**
    * Determine the size of an SD flash memory card.
    *
-   * \return The number of 512 byte data blocks in the card
+   * \return The number of 512 byte sectors in the card
    *         or zero if an error occurs.
    */
-  uint32_t cardSize();
+  uint32_t cardCapacity();
+  /** \return Card size in sectors or zero if an error occurs. */
+  uint32_t cardSize() {return cardCapacity();}
   /** Clear debug stats. */
   void dbgClearStats();
   /** Print debug stats. */
@@ -328,6 +330,9 @@ class SdSpiCard {
   }
   uint32_t cardSize() { return _blocks; }
   bool erase(uint32_t firstBlock, uint32_t lastBlock) {
+    _blocks = _sdCardSizeB / 512LL;
+    _data = _sdCard;
+    if (!_data) return false;
     memset(_data + firstBlock * 512, 0, (lastBlock - firstBlock) * 512);
     return true;
   }
@@ -337,30 +342,42 @@ class SdSpiCard {
   int errorData() const { return m_status; }
   bool isBusy() { return false; }
   bool readBlock(uint32_t lba, uint8_t* dst) {
+    _blocks = _sdCardSizeB / 512LL;
+    _data = _sdCard;
+    if (!_data) return false;
     memcpy(dst, _data + lba * 512, 512);
     return true;
   }
   bool readBlocks(uint32_t lba, uint8_t* dst, size_t nb) {
+    _blocks = _sdCardSizeB / 512LL;
+    _data = _sdCard;
+    if (!_data) return false;
     memcpy(dst, _data + lba, 512 * nb);
     return true;
   }
-  bool readCID(cid_t* cid) { return true; }
-  bool readCSD(csd_t* csd) { return true; }
+  bool readCID(cid_t* cid) { (void) cid; return true; }
+  bool readCSD(csd_t* csd) { (void) csd; return true; }
   bool readData(uint8_t *dst) { return readBlock(_multi++, dst); }
-  bool readOCR(uint32_t* ocr) { return true; }
+  bool readOCR(uint32_t* ocr) { (void) ocr; return true; }
   bool readStart(uint32_t blockNumber) {
     _multi = blockNumber;
     return true;
   }
-  bool readStatus(uint8_t* status) { return true; }
+  bool readStatus(uint8_t* status) { (void) status; return true; }
   bool readStop() { return true; }
   bool syncBlocks() { return true; }
   int type() const { return m_type; }
   bool writeBlock(uint32_t lba, const uint8_t* src) {
+    _blocks = _sdCardSizeB / 512LL;
+    _data = _sdCard;
+    if (!_data) return false;
     memcpy(_data + lba * 512, src, 512);
     return true;
   }
   bool writeBlocks(uint32_t lba, const uint8_t* src, size_t nb) {
+    _blocks = _sdCardSizeB / 512LL;
+    _data = _sdCard;
+    if (!_data) return false;
     memcpy(_data + lba * 512, src, 512 * nb);
     return true;
   }
