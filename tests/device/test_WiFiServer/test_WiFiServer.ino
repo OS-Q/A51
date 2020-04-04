@@ -10,13 +10,18 @@ BS_ENV_DECLARE();
 void setup()
 {
     Serial.begin(115200);
+    BS_RUN(Serial);
+}
+
+bool pretest()
+{
     WiFi.persistent(false);
     WiFi.begin(getenv("STA_SSID"), getenv("STA_PASS"));
     while (WiFi.status() != WL_CONNECTED) {
         delay(500);
     }
     MDNS.begin("esp8266-wfs-test");
-    BS_RUN(Serial);
+    return true;
 }
 
 TEST_CASE("Simple echo server", "[WiFiServer]")
@@ -31,7 +36,7 @@ TEST_CASE("Simple echo server", "[WiFiServer]")
     
     int replyCount = 0;
     while (millis() - start < timeout) {
-        delay(50);
+        MDNS.update();
         WiFiClient client = server.available();
         if (!client) {
             continue;

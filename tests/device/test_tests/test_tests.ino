@@ -8,6 +8,11 @@ void setup()
     BS_RUN(Serial);
 }
 
+bool pretest()
+{
+    return true;
+}
+
 
 TEST_CASE("this test runs successfully", "[bs]")
 {
@@ -15,7 +20,7 @@ TEST_CASE("this test runs successfully", "[bs]")
     REQUIRE(2 * 2 == 4);
 }
 
-TEST_CASE("another test which fails", "[bs][fail]")
+TEST_CASE("another test which successfully fails", "[bs][fail]")
 {
     CHECK(true);
     CHECK(false);
@@ -23,7 +28,7 @@ TEST_CASE("another test which fails", "[bs][fail]")
     CHECK(false);
 }
 
-TEST_CASE("another test which fails and crashes", "[bs][fail]")
+TEST_CASE("another test which successfully fails and crashes", "[bs][fail]")
 {
     CHECK(true);
     REQUIRE(false);
