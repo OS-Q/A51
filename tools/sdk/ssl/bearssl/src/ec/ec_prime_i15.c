@@ -31,28 +31,28 @@
  *   - b*R mod p (b is the second curve equation parameter)
  */
 
-static const uint16_t P256_P[] = {
+static const uint16_t P256_P[] PROGMEM = {
 	0x0111,
 	0x7FFF, 0x7FFF, 0x7FFF, 0x7FFF, 0x7FFF, 0x7FFF, 0x003F, 0x0000,
 	0x0000, 0x0000, 0x0000, 0x0000, 0x1000, 0x0000, 0x4000, 0x7FFF,
 	0x7FFF, 0x0001
 };
 
-static const uint16_t P256_R2[] = {
+static const uint16_t P256_R2[] PROGMEM = {
 	0x0111,
 	0x0000, 0x6000, 0x0000, 0x0000, 0x0000, 0x0000, 0x7FFC, 0x7FFF,
 	0x7FBF, 0x7FFF, 0x7FBF, 0x7FFF, 0x7FFF, 0x7FFF, 0x77FF, 0x7FFF,
 	0x4FFF, 0x0000
 };
 
-static const uint16_t P256_B[] = {
+static const uint16_t P256_B[] PROGMEM = {
 	0x0111,
 	0x770C, 0x5EEF, 0x29C4, 0x3EC4, 0x6273, 0x0486, 0x4543, 0x3993,
 	0x3C01, 0x6B56, 0x212E, 0x57EE, 0x4882, 0x204B, 0x7483, 0x3C16,
 	0x0187, 0x0000
 };
 
-static const uint16_t P384_P[] = {
+static const uint16_t P384_P[] PROGMEM = {
 	0x0199,
 	0x7FFF, 0x7FFF, 0x0003, 0x0000, 0x0000, 0x0000, 0x7FC0, 0x7FFF,
 	0x7EFF, 0x7FFF, 0x7FFF, 0x7FFF, 0x7FFF, 0x7FFF, 0x7FFF, 0x7FFF,
@@ -60,7 +60,7 @@ static const uint16_t P384_P[] = {
 	0x7FFF, 0x01FF
 };
 
-static const uint16_t P384_R2[] = {
+static const uint16_t P384_R2[] PROGMEM = {
 	0x0199,
 	0x1000, 0x0000, 0x0000, 0x7FFF, 0x7FFF, 0x0001, 0x0000, 0x0010,
 	0x0000, 0x0000, 0x0000, 0x7F00, 0x7FFF, 0x01FF, 0x0000, 0x1000,
@@ -68,7 +68,7 @@ static const uint16_t P384_R2[] = {
 	0x0000, 0x0000
 };
 
-static const uint16_t P384_B[] = {
+static const uint16_t P384_B[] PROGMEM = {
 	0x0199,
 	0x7333, 0x2096, 0x70D1, 0x2310, 0x3020, 0x6197, 0x1464, 0x35BB,
 	0x70CA, 0x0117, 0x1920, 0x4136, 0x5FC8, 0x5713, 0x4938, 0x7DD2,
@@ -76,7 +76,7 @@ static const uint16_t P384_B[] = {
 	0x0452, 0x0084
 };
 
-static const uint16_t P521_P[] = {
+static const uint16_t P521_P[] PROGMEM = {
 	0x022B,
 	0x7FFF, 0x7FFF, 0x7FFF, 0x7FFF, 0x7FFF, 0x7FFF, 0x7FFF, 0x7FFF,
 	0x7FFF, 0x7FFF, 0x7FFF, 0x7FFF, 0x7FFF, 0x7FFF, 0x7FFF, 0x7FFF,
@@ -85,7 +85,7 @@ static const uint16_t P521_P[] = {
 	0x7FFF, 0x7FFF, 0x07FF
 };
 
-static const uint16_t P521_R2[] = {
+static const uint16_t P521_R2[] PROGMEM = {
 	0x022B,
 	0x0100, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
 	0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
@@ -94,7 +94,7 @@ static const uint16_t P521_R2[] = {
 	0x0000, 0x0000, 0x0000
 };
 
-static const uint16_t P521_B[] = {
+static const uint16_t P521_B[] PROGMEM = {
 	0x022B,
 	0x7002, 0x6A07, 0x751A, 0x228F, 0x71EF, 0x5869, 0x20F4, 0x1EFC,
 	0x7357, 0x37E0, 0x4EEC, 0x605E, 0x1652, 0x26F6, 0x31FA, 0x4A8F,
@@ -501,7 +501,7 @@ run_code(jacobian *P1, const jacobian *P2,
 			br_i15_montymul(t[d], t[a], t[b], cc->p, cc->p0i);
 			break;
 		case 4:
-			plen = (cc->p[0] - (cc->p[0] >> 4) + 7) >> 3;
+			plen = (pgm_read_word(&cc->p[0]) - (pgm_read_word(&cc->p[0]) >> 4) + 7) >> 3;
 			br_i15_encode(tp, plen, cc->p);
 			tp[plen - 1] -= 2;
 			br_i15_modpow(t[d], tp, plen,
@@ -525,9 +525,9 @@ set_one(uint16_t *x, const uint16_t *p)
 {
 	size_t plen;
 
-	plen = (p[0] + 31) >> 4;
+	plen = (pgm_read_word(&p[0]) + 31) >> 4;
 	memset(x, 0, plen * sizeof *x);
-	x[0] = p[0];
+	x[0] = pgm_read_word(&p[0]);
 	x[1] = 0x0001;
 }
 
@@ -535,7 +535,7 @@ static void
 point_zero(jacobian *P, const curve_params *cc)
 {
 	memset(P, 0, sizeof *P);
-	P->c[0][0] = P->c[1][0] = P->c[2][0] = cc->p[0];
+	P->c[0][0] = P->c[1][0] = P->c[2][0] = pgm_read_word(&cc->p[0]);
 }
 
 static inline void
@@ -589,7 +589,7 @@ point_mul(jacobian *P, const unsigned char *x, size_t xlen,
 			point_double(&Q, cc);
 			memcpy(&T, P, sizeof T);
 			memcpy(&U, &Q, sizeof U);
-			bits = (*x >> k) & (uint32_t)3;
+			bits = (pgm_read_byte(&*x) >> k) & (uint32_t)3;
 			bnz = NEQ(bits, 0);
 			CCOPY(EQ(bits, 2), &T, &P2, sizeof T);
 			CCOPY(EQ(bits, 3), &T, &P3, sizeof T);
@@ -635,7 +635,7 @@ point_decode(jacobian *P, const void *src, size_t len, const curve_params *cc)
 
 	buf = src;
 	point_zero(P, cc);
-	plen = (cc->p[0] - (cc->p[0] >> 4) + 7) >> 3;
+	plen = (pgm_read_word(&cc->p[0]) - (pgm_read_word(&cc->p[0]) >> 4) + 7) >> 3;
 	if (len != 1 + (plen << 1)) {
 		return 0;
 	}
@@ -645,7 +645,7 @@ point_decode(jacobian *P, const void *src, size_t len, const curve_params *cc)
 	/*
 	 * Check first byte.
 	 */
-	r &= EQ(buf[0], 0x04);
+	r &= EQ(pgm_read_byte(&buf[0]), 0x04);
 	/* obsolete
 	r &= EQ(buf[0], 0x04) | (EQ(buf[0] & 0xFE, 0x06)
 		& ~(uint32_t)(buf[0] ^ buf[plen << 1]));
@@ -654,9 +654,9 @@ point_decode(jacobian *P, const void *src, size_t len, const curve_params *cc)
 	/*
 	 * Convert coordinates and check that the point is valid.
 	 */
-	zlen = ((cc->p[0] + 31) >> 4) * sizeof(uint16_t);
-	memcpy(Q.c[0], cc->R2, zlen);
-	memcpy(Q.c[1], cc->b, zlen);
+	zlen = ((pgm_read_word(&cc->p[0]) + 31) >> 4) * sizeof(uint16_t);
+	memcpy_P(Q.c[0], cc->R2, zlen);
+	memcpy_P(Q.c[1], cc->b, zlen);
 	set_one(Q.c[2], cc->p);
 	r &= ~run_code(P, &Q, cc, code_check);
 	return r;
@@ -675,7 +675,7 @@ point_encode(void *dst, const jacobian *P, const curve_params *cc)
 	jacobian Q, T;
 
 	buf = dst;
-	plen = (cc->p[0] - (cc->p[0] >> 4) + 7) >> 3;
+	plen = (pgm_read_word(&cc->p[0]) - (pgm_read_word(&cc->p[0]) >> 4) + 7) >> 3;
 	buf[0] = 0x04;
 	memcpy(&Q, P, sizeof *P);
 	set_one(T.c[2], cc->p);
@@ -751,7 +751,7 @@ api_mulgen(unsigned char *R,
 	size_t Glen;
 
 	G = api_generator(curve, &Glen);
-	memcpy(R, G, Glen);
+	memcpy_P(R, G, Glen);
 	api_mul(R, Glen, x, xlen, curve);
 	return Glen;
 }

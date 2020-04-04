@@ -46,7 +46,7 @@ Builder.match_splitext = scons_patched_match_splitext
 env = DefaultEnvironment()
 platform = env.PioPlatform()
 
-FRAMEWORK_DIR = platform.get_package_dir("framework-N11")
+FRAMEWORK_DIR = platform.get_package_dir("framework-arduinoespressif8266")
 assert isdir(FRAMEWORK_DIR)
 
 
@@ -164,16 +164,36 @@ if "PIO_FRAMEWORK_ARDUINO_ESPRESSIF_SDK3" in flatten_cppdefines:
         CPPDEFINES=[("NONOSDK3V0", 1)],
         LIBPATH=[join(FRAMEWORK_DIR, "tools", "sdk", "lib", "NONOSDK3V0")]
     )
-elif "PIO_FRAMEWORK_ARDUINO_ESPRESSIF_SDK22x" in flatten_cppdefines:
-    env.Append(
-        CPPDEFINES=[("NONOSDK22x", 1)],
-        LIBPATH=[join(FRAMEWORK_DIR, "tools", "sdk", "lib", "NONOSDK22x")]
-    )
-# PIO_FRAMEWORK_ARDUINO_ESPRESSIF_SDK22x (default)
-else:
+elif "PIO_FRAMEWORK_ARDUINO_ESPRESSIF_SDK221" in flatten_cppdefines:
+    #(previous default)
     env.Append(
         CPPDEFINES=[("NONOSDK221", 1)],
         LIBPATH=[join(FRAMEWORK_DIR, "tools", "sdk", "lib", "NONOSDK221")]
+    )
+elif "PIO_FRAMEWORK_ARDUINO_ESPRESSIF_SDK22x_190313" in flatten_cppdefines:
+    env.Append(
+        CPPDEFINES=[("NONOSDK22x_190313", 1)],
+        LIBPATH=[join(FRAMEWORK_DIR, "tools", "sdk", "lib", "NONOSDK22x_190313")]
+    )
+elif "PIO_FRAMEWORK_ARDUINO_ESPRESSIF_SDK22x_191024" in flatten_cppdefines:
+    env.Append(
+        CPPDEFINES=[("NONOSDK22x_191024", 1)],
+        LIBPATH=[join(FRAMEWORK_DIR, "tools", "sdk", "lib", "NONOSDK22x_191024")]
+    )
+elif "PIO_FRAMEWORK_ARDUINO_ESPRESSIF_SDK22x_191105" in flatten_cppdefines:
+    env.Append(
+        CPPDEFINES=[("NONOSDK22x_191105", 1)],
+        LIBPATH=[join(FRAMEWORK_DIR, "tools", "sdk", "lib", "NONOSDK22x_191105")]
+    )
+elif "PIO_FRAMEWORK_ARDUINO_ESPRESSIF_SDK22x_191122" in flatten_cppdefines:
+    env.Append(
+        CPPDEFINES=[("NONOSDK22x_191122", 1)],
+        LIBPATH=[join(FRAMEWORK_DIR, "tools", "sdk", "lib", "NONOSDK22x_191122")]
+    )
+else: #(default) if "PIO_FRAMEWORK_ARDUINO_ESPRESSIF_SDK22x_190703" in flatten_cppdefines:
+    env.Append(
+        CPPDEFINES=[("NONOSDK22x_190703", 1)],
+        LIBPATH=[join(FRAMEWORK_DIR, "tools", "sdk", "lib", "NONOSDK22x_190703")]
     )
 
 #
@@ -244,9 +264,13 @@ app_ld = env.Command(
         "Generating LD script $TARGET"))
 env.Depends("$BUILD_DIR/$PROGNAME$PROGSUFFIX", app_ld)
 
+if not env.BoardConfig().get("build.ldscript", ""):
+    env.Replace(LDSCRIPT_PATH=env.BoardConfig().get("build.arduino.ldscript", ""))
+
 #
 # Dynamic core_version.h for staging builds
 #
+
 
 def platform_txt_version(default):
     with open(join(FRAMEWORK_DIR, "platform.txt"), "r") as platform_txt:
@@ -260,6 +284,7 @@ def platform_txt_version(default):
                 return v.strip()
 
     return default
+
 
 if isdir(join(FRAMEWORK_DIR, ".git")):
     cmd = '"$PYTHONEXE" "{script}" -b "$BUILD_DIR" -p "{framework_dir}" -v {version}'
