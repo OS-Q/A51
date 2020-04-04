@@ -1,6 +1,6 @@
 {
     "name": "framework-N11",
-    "description": "Arduino Core Framework N11 (ESP8266/ESP8285 Wiring-based)",
+    "description": "Arduino Core Base ESP8266/ESP8285",
     "url": "https://github.com/OS-Q/N11",
-    "version": "2.5.2"
+    "version": "3.20603.200130"
 }
