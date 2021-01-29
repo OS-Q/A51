@@ -1,6 +1,6 @@
 {
-    "name": "framework-N11",
-    "description": "Arduino Core Base ESP8266/ESP8285",
-    "url": "https://github.com/OS-Q/N11",
+    "name": "framework-arduinoespressif8266",
+    "description": "Arduino Wiring-based Framework for Espressif ESP8266 microcontrollers",
+    "url": "https://github.com/OS-Q/A15",
     "version": "2.6.3"
 }
