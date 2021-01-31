@@ -1,3 +1,17 @@
+# Copyright (c) 2014-present PlatformIO <contact@platformio.org>
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    https://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 """
 Arduino
 
@@ -8,7 +22,7 @@ kinds of creative coding, interactive objects, spaces or physical experiences.
 https://arduino.cc/en/Reference/HomePage
 """
 
-# Extends: https://github.com/OS-Q/H08/blob/develop/builder/main.py
+# Extends: https://github.com/platformio/platform-espressif8266/blob/develop/builder/main.py
 
 from os.path import isdir, join
 
@@ -32,7 +46,7 @@ Builder.match_splitext = scons_patched_match_splitext
 env = DefaultEnvironment()
 platform = env.PioPlatform()
 
-FRAMEWORK_DIR = platform.get_package_dir("framework-N11")
+FRAMEWORK_DIR = platform.get_package_dir("framework-arduinoespressif8266")
 assert isdir(FRAMEWORK_DIR)
 
 
@@ -233,9 +247,12 @@ else:
 #
 
 current_vtables = None
+fp_in_irom = ""
 for d in flatten_cppdefines:
     if str(d).startswith("VTABLES_IN_"):
         current_vtables = d
+    if str(d) == "FP_IN_IROM":
+        fp_in_irom = "-DFP_IN_IROM"
 if not current_vtables:
     current_vtables = "VTABLES_IN_FLASH"
     env.Append(CPPDEFINES=[current_vtables])
@@ -246,17 +263,16 @@ app_ld = env.Command(
     join("$BUILD_DIR", "ld", "local.eagle.app.v6.common.ld"),
     join(FRAMEWORK_DIR, "tools", "sdk", "ld", "eagle.app.v6.common.ld.h"),
     env.VerboseAction(
-        "$CC -CC -E -P -D%s $SOURCE -o $TARGET" % current_vtables,
+        "$CC -CC -E -P -D%s %s $SOURCE -o $TARGET" % (current_vtables, fp_in_irom),
         "Generating LD script $TARGET"))
 env.Depends("$BUILD_DIR/$PROGNAME$PROGSUFFIX", app_ld)
 
 if not env.BoardConfig().get("build.ldscript", ""):
-    env.Replace(LDSCRIPT_PATH=env.BoardConfig().get("build.arduino.ldscript", ""))
+    env.Replace(LDSCRIPT_PATH=env.BoardConfig().get("build.arduino.ldscript", "")) 
 
 #
 # Dynamic core_version.h for staging builds
 #
-
 
 def platform_txt_version(default):
     with open(join(FRAMEWORK_DIR, "platform.txt"), "r") as platform_txt:
@@ -270,7 +286,6 @@ def platform_txt_version(default):
                 return v.strip()
 
     return default
-
 
 if isdir(join(FRAMEWORK_DIR, ".git")):
     cmd = '"$PYTHONEXE" "{script}" -b "$BUILD_DIR" -p "{framework_dir}" -v {version}'

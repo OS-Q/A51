@@ -32,10 +32,9 @@
 #include "pgmspace.h"
 #include "gdb_hooks.h"
 #include "StackThunk.h"
+#include "coredecls.h"
 
 extern "C" {
-
-extern void __real_system_restart_local();
 
 // These will be pointers to PROGMEM const strings
 static const char* s_panic_file = 0;
@@ -89,8 +88,20 @@ static void ets_printf_P(const char *str, ...) {
     vsnprintf(destStr, sizeof(destStr), str, argPtr);
     va_end(argPtr);
     while (*c) {
-        ets_putc(*(c++));
+        ets_uart_putc1(*(c++));
     }
+}
+
+static void cut_here() {
+    ets_putc('\n');
+    for (auto i = 0; i < 15; i++ ) {
+        ets_putc('-');
+    }
+    ets_printf_P(PSTR(" CUT HERE FOR EXCEPTION DECODER "));
+    for (auto i = 0; i < 15; i++ ) {
+        ets_putc('-');
+    }
+    ets_putc('\n');
 }
 
 void __wrap_system_restart_local() {
@@ -113,6 +124,8 @@ void __wrap_system_restart_local() {
         rst_info.reason = s_user_reset_reason;
 
     ets_install_putc1(&uart_write_char_d);
+
+    cut_here();
 
     if (s_panic_line) {
         ets_printf_P(PSTR("\nPanic %S:%d %S"), s_panic_file, s_panic_line, s_panic_func);
@@ -147,10 +160,10 @@ void __wrap_system_restart_local() {
     // (determined empirically, might break)
     uint32_t offset = 0;
     if (rst_info.reason == REASON_SOFT_WDT_RST) {
-        offset = 0x1b0;
+        offset = 0x1a0;
     }
     else if (rst_info.reason == REASON_EXCEPTION_RST) {
-        offset = 0x1a0;
+        offset = 0x190;
     }
     else if (rst_info.reason == REASON_WDT_RST) {
         offset = 0x10;
@@ -193,6 +206,8 @@ void __wrap_system_restart_local() {
         ets_printf_P(PSTR("\nlast failed alloc call: %08X(%d)\n"), (uint32_t)umm_last_fail_alloc_addr, umm_last_fail_alloc_size);
 #endif
     }
+
+    cut_here();
 
     custom_crash_callback( &rst_info, sp_dump + offset, stack_end );
 
