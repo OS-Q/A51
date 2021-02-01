@@ -46,7 +46,7 @@ Builder.match_splitext = scons_patched_match_splitext
 env = DefaultEnvironment()
 platform = env.PioPlatform()
 
-FRAMEWORK_DIR = platform.get_package_dir("framework-arduinoespressif8266")
+FRAMEWORK_DIR = platform.get_package_dir("framework-A15")
 assert isdir(FRAMEWORK_DIR)
 
 
@@ -268,7 +268,7 @@ app_ld = env.Command(
 env.Depends("$BUILD_DIR/$PROGNAME$PROGSUFFIX", app_ld)
 
 if not env.BoardConfig().get("build.ldscript", ""):
-    env.Replace(LDSCRIPT_PATH=env.BoardConfig().get("build.arduino.ldscript", "")) 
+    env.Replace(LDSCRIPT_PATH=env.BoardConfig().get("build.arduino.ldscript", ""))
 
 #
 # Dynamic core_version.h for staging builds

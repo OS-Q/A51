@@ -8,8 +8,8 @@ function install_platformio()
 {
     pip3 install --user -U https://github.com/platformio/platformio/archive/develop.zip
     platformio platform install "https://github.com/platformio/platform-espressif8266.git"
-    python -c "import json; import os; fp=open(os.path.expanduser('~/.platformio/platforms/espressif8266/platform.json'), 'r+'); data=json.load(fp); data['packages']['framework-arduinoespressif8266']['version'] = '*'; fp.seek(0); fp.truncate(); json.dump(data, fp); fp.close()"
-    ln -sf $TRAVIS_BUILD_DIR ~/.platformio/packages/framework-arduinoespressif8266
+    python -c "import json; import os; fp=open(os.path.expanduser('~/.platformio/platforms/espressif8266/platform.json'), 'r+'); data=json.load(fp); data['packages']['framework-A15']['version'] = '*'; fp.seek(0); fp.truncate(); json.dump(data, fp); fp.close()"
+    ln -sf $TRAVIS_BUILD_DIR ~/.platformio/packages/framework-A15
     # Install dependencies:
     # - esp8266/examples/ConfigFile
     pio lib --global install "ArduinoJson@^6.11.0"

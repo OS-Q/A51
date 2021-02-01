@@ -1,6 +1,6 @@
 {
-  "name": "framework-arduinoespressif8266",
-  "version": "3.20704.0",
+  "name": "framework-A15",
+  "version": "3.2.0",
   "description": "Arduino Wiring-based Framework for Espressif ESP8266 microcontrollers",
   "keywords": [
     "framework",
@@ -11,6 +11,6 @@
   "license": "LGPL-2.1",
   "repository": {
     "type": "git",
-    "url": "https://github.com/OS-Q/F15"
+    "url": "https://github.com/OS-Q/A15"
   }
 }
