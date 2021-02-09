@@ -1,16 +1,15 @@
 {
-  "name": "A15",
+  "name": "A51",
   "version": "3.2.0",
   "description": "Arduino Wiring-based Framework for Espressif ESP8266 microcontrollers",
   "keywords": [
-    "framework",
+    "OS-Q",
     "arduino",
     "espressif",
     "esp8266"
   ],
-  "license": "LGPL-2.1",
   "repository": {
     "type": "git",
-    "url": "https://github.com/OS-Q/A15"
+    "url": "https://github.com/OS-Q/A51"
   }
 }
