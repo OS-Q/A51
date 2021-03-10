@@ -1,5 +1,5 @@
 {
-  "name": "A51",
+  "name": "A51A",
   "version": "3.2.0",
   "description": "Arduino Wiring-based Framework for Espressif ESP8266 microcontrollers",
   "keywords": [
@@ -10,6 +10,6 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/OS-Q/A51"
+    "url": "https://github.com/esp8266/Arduino"
   }
 }
