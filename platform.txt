@@ -11,6 +11,8 @@ version=2.7.4
 # These will be removed by the packager script when doing a JSON release
 
 
+
+
 runtime.tools.signing={runtime.platform.path}/tools/signing.py
 runtime.tools.elf2bin={runtime.platform.path}/tools/elf2bin.py
 runtime.tools.sizes={runtime.platform.path}/tools/sizes.py
