@@ -1,5 +1,5 @@
 {
-  "name": "A51",
+  "name": "framework-arduinoespressif8266",
   "version": "3.20704.0",
   "description": "Arduino Wiring-based Framework for Espressif ESP8266 microcontrollers",
   "keywords": [
